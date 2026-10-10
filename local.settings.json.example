@@ -1,0 +1,9 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "SqlConnectionString": "Driver={ODBC Driver 18 for SQL Server};Server=tcp:empcomp-deep-sql.database.windows.net,1433;Database=empcomp-db;Uid=sqladmin;Pwd={Deepdama@20};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;",
+    "DEFAULT_BONUS_RATE": "0.05"
+  }
+}

@@ -1,0 +1,17 @@
+# Secrets - never commit
+local.settings.json
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# Azure Functions / editors
+.python_packages/
+bin/
+obj/
+
+.idea/

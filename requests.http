@@ -1,0 +1,99 @@
+### Sample requests - open in VS Code with the "REST Client" extension
+### and click "Send Request" above each one.
+### Local:  @base = http://localhost:7071/api   (no key needed locally)
+### Azure:  @base = https://<your-app>.azurewebsites.net/api  and set @key
+
+@base = https://empcomp-deep-func-cwbsfyfdgxc3bkfh.uaenorth-01.azurewebsites.net/api
+@key = 
+
+### Health check (anonymous)
+GET {{base}}/health
+
+### ---------------- Part A: CRUD ----------------
+
+### A.1 Create an employee without a bonus
+POST {{base}}/employees?code={{key}}
+Content-Type: application/json
+
+{
+  "firstName": "Asha",
+  "lastName": "Kapoor",
+  "departmentId": 2,
+  "salary": 64000.50,
+  "hireDate": "2025-02-01"
+}
+
+### A.1 Validation failure -> 400 with per-field details
+POST {{base}}/employees?code={{key}}
+Content-Type: application/json
+
+{ "firstName": "", "salary": -5, "bonus": "lots" }
+
+### A.1 Unknown department -> 400
+POST {{base}}/employees?code={{key}}
+Content-Type: application/json
+
+{ "firstName": "Test", "lastName": "User", "departmentId": 99, "salary": 50000 }
+
+### A.2 Get one employee
+GET {{base}}/employees/1?code={{key}}
+
+### A.2 Get one employee with the Part C default bonus applied (read-time)
+GET {{base}}/employees/3?applyDefaultBonus=true&code={{key}}
+
+### A.2 Missing employee -> 404
+GET {{base}}/employees/9999?code={{key}}
+
+### A.3 List all employees
+GET {{base}}/employees?code={{key}}
+
+### A.3 List employees in one department
+GET {{base}}/employees?departmentId=2&code={{key}}
+
+### A.4 Partial update - change only the bonus
+PATCH {{base}}/employees/3?code={{key}}
+Content-Type: application/json
+
+{ "bonus": 7500 }
+
+### A.4 Remove a bonus (explicit null)
+PATCH {{base}}/employees/3?code={{key}}
+Content-Type: application/json
+
+{ "bonus": null }
+
+### A.4 Full replacement
+PUT {{base}}/employees/3?code={{key}}
+Content-Type: application/json
+
+{
+  "firstName": "Rohan",
+  "lastName": "Mehta",
+  "departmentId": 1,
+  "salary": 98000,
+  "bonus": null,
+  "hireDate": "2021-01-18"
+}
+
+### A.5 Delete -> 204 (run twice: second time is 404)
+DELETE {{base}}/employees/13?code={{key}}
+
+### ---------------- Part B: reports ----------------
+
+### B.1
+GET {{base}}/reports/total-bonus?code={{key}}
+
+### B.2
+GET {{base}}/reports/employees-without-bonus?code={{key}}
+
+### B.3
+GET {{base}}/reports/bonus-percentage?code={{key}}
+
+### B.4
+GET {{base}}/reports/departments-bonus-over-average-salary?code={{key}}
+
+### B.5
+GET {{base}}/reports/bonus-ranking?code={{key}}
+
+### B.6
+GET {{base}}/reports/highest-salary?code={{key}}
